@@ -1,56 +1,56 @@
+// Variables
 
-function yearsFunction() {
 
-    //Convert string to number
 
+// Events
+
+
+
+// Functions
+// User Interface Functions
+// Show Years
+function displayYears() {
+    // Convert to number
     let
-        iranainNumber = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g],
-
-        arabicNumber = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g],
-
+        persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g],
+        arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g],
         fixNumbers = function (str) {
-
             if (typeof str === 'string') {
-
-                for (let i = 0; i < 10; i++) {
-
-                    str = str.replace(iranainNumber[i], i).replace(arabicNumber[i], i);
-
+                for (var i = 0; i < 10; i++) {
+                    str = str.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
                 }
             }
-
             return parseInt(str);
-        }
+        };
 
-
-
-    //get new year
+    // get now years
     let curentYear = new Date().toLocaleDateString('fa-IR')
 
-    //Slice year Data
+    // Slice date
     curentYear = curentYear.slice(0, 4)
 
-    //get max year
+    // get max year
     let maxYear = fixNumbers(curentYear)
+    console.log(maxYear);
 
-    console.log(maxYear)
-
-
-    //get min year
+    // get min year
     let minYear = maxYear - 20
-    console.log(minYear)
+    console.log(minYear);
+
+    // access to the select tag
     const selectYear = document.querySelector('#year')
 
-    //create option for loop
+    // create for loop for making option tag
     for (let i = maxYear; i >= minYear; i--) {
-        // creat tag 
-        const tagOption = document.createElement('option')
-        tagOption.value = i;
-        tagOption.innerText = `سال ${i}`
+        // create option tag
+        const optionTag = document.createElement('option')
+        optionTag.value = i;
+        optionTag.innerText = `سال ${i}`;
 
-        //append option tag
-        selectYear.appendChild(tagOption)
+        // append option to the selectYear
+        selectYear.appendChild(optionTag)
     }
 }
 
-yearsFunction()
+
+displayYears()
