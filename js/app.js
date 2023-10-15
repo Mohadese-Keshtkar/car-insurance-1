@@ -36,19 +36,15 @@ function submitForm(e) {
         displayMsg('بهت گفتم بس کن... بم گفتی خستم😭')
     } else {
         alert("ثبت شد")
-        // console.log(insuranceCase(make, years, level))
 
-        // STEP1: get info
         let insuranceCase = {
             make: make,
             year: year,
             level: level
         }
 
-        // STEP2: calculate
+        // calculate
         calculaterPrice(insuranceCase)
-
-        // STEP3: show result message box
 
     }
 
