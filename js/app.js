@@ -1,17 +1,5 @@
 const form = document.querySelector("#request-quote")
 
-// Information (car base price and coefficient) :
-
-// Note: The configuration can be easily changed
-const config = {
-    price: 0,
-    basePrice: 2000000,
-    make1: 1.15,
-    make2: 1.3,
-    make3: 1.8,
-    basic: 1.3, //  =>  30%
-    complete: 1.5, //  =>  50%
-};
 
 // Events
 document.addEventListener('DOMContentLoaded', afterLoad)
@@ -49,6 +37,20 @@ function submitForm(e) {
     }
 
 }
+
+
+// Information (car base price and coefficient) :
+// Note: The configuration can be easily changed
+const config = {
+    price: 0,
+    basePrice: 2000000,
+    make1: 1.15,
+    make2: 1.3,
+    make3: 1.8,
+    basic: 1.3, //  =>  30%
+    complete: 1.5, //  =>  50%
+};
+
 
 // Price calculation function
 
