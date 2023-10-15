@@ -1,19 +1,23 @@
+// ---------- Validaiton ----------
+
 const form = document.querySelector("#request-quote")
 
 
-// Events
+// ---------- Events ---------
 document.addEventListener('DOMContentLoaded', afterLoad)
 document.addEventListener('submit', submitForm)
 
 
+// this function for Priority page loading js file components
 function afterLoad() {
     // get the current year
     fixNumbers(currentYearr());
 }
 
 
-// submit 
+// -------------- submit Form ---------------
 function submitForm(e) {
+    // Prevent page loading
     e.preventDefault()
 
     const make = document.querySelector('#make').value
@@ -104,7 +108,7 @@ function calMake(chosenMake, price) {
 }
 
 
-// calculate the price based on the chosen level.........
+// calculate the price based on the chosen level
 
 function calLevel(chosenLevel, price) {
     const basic = config.basic;
@@ -115,8 +119,6 @@ function calLevel(chosenLevel, price) {
         return (price = price * complete);
     }
 }
-
-// User Interface (UI) Functions
 
 // Display message box
 
@@ -150,7 +152,7 @@ function currentYearr() {
     return maxYear;
 }
 
-// convert strings to eng
+// Convert Arabic and Persian string numbers to Gregorian numerals
 
 function fixNumbers(str) {
     // Convert to number
@@ -178,12 +180,15 @@ function fixNumbers(str) {
             /٨/g,
             /٩/g,
         ];
+
+    //Checking the input type to see if it is a string or not
     if (typeof str === "string") {
         for (var i = 0; i < 10; i++) {
             str = str.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
         }
     }
 
+    // return prometr numbric
     return parseInt(str);
 }
 
@@ -203,7 +208,7 @@ function preYears(maxYear) {
     }
 }
 
-// make option tags based on the given value & text
+// make option tags for DOM 
 
 function optionMaker(optValue, optText) {
     // access to the select tag
