@@ -1,8 +1,6 @@
-// Variables
-
 const form = document.querySelector("#request-quote")
 
-// Information storage (car base price and coefficient) :
+// Information (car base price and coefficient) :
 
 // Note: The configuration can be easily changed
 const config = {
@@ -11,10 +9,8 @@ const config = {
     make1: 1.15,
     make2: 1.3,
     make3: 1.8,
-    // 30%
-    basic: 1.3,
-    // 50%
-    complete: 1.5,
+    basic: 1.3, //  =>  30%
+    complete: 1.5, //  =>  50%
 };
 
 // Events
@@ -22,14 +18,13 @@ document.addEventListener('DOMContentLoaded', afterLoad)
 document.addEventListener('submit', submitForm)
 
 
-// Function
 function afterLoad() {
-    // get the current year and fix it
+    // get the current year
     fixNumbers(currentYearr());
 }
 
 
-// submit form
+// submit 
 function submitForm(e) {
     e.preventDefault()
 
@@ -40,7 +35,7 @@ function submitForm(e) {
     if (make === "" || year === "" || level === "") {
         displayMsg('بهت گفتم بس کن... بم گفتی خستم😭')
     } else {
-        console.log("AllRight")
+        alert("ثبت شد")
         // console.log(insuranceCase(make, years, level))
 
         // STEP1: get info
@@ -48,7 +43,6 @@ function submitForm(e) {
             make: make,
             year: year,
             level: level
-
         }
 
         // STEP2: calculate
