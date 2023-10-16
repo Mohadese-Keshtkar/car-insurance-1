@@ -1,5 +1,6 @@
 # car-insurance
 
+<<<<<<< HEAD
 ## About the project:
   
 #### This website was created and provided to you so that you can find out about the car insurance you want for the last twenty years.

@@ -118,6 +118,8 @@ function calLevel(chosenLevel, price) {
     } else {
         return (price = price * complete);
     }
+
+
 }
 
 // Display message box
