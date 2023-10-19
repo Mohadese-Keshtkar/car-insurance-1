@@ -11,7 +11,7 @@ document.addEventListener('submit', submitForm)
 // this function for Priority page loading js file components
 function afterLoad() {
     // get the current year
-    fixNumbers(currentYearr());
+    fixNumbers(currentYear());
 }
 
 
@@ -56,14 +56,15 @@ const config = {
 };
 
 
-// Price calculation function
+// Price calculation 
+// Functions to handle calculations
 
 function calculaterPrice(info) {
     // variables
     let price = config.price;
 
     // + Calculate the price based on the Make chosen by user
-    price = calMake(info.make, price);
+    price = carMake(info.make, price);
 
     // + Calculate the price based on the Year chosen by user
     const year = fixNumbers(info.year);
@@ -75,54 +76,63 @@ function calculaterPrice(info) {
     price = price - ((diffrence * 3) / 100) * price;
 
     // + Calculate the price based on the level chosen by user
-    price = calLevel(info.level, price);
+    price = carLevel(info.level, price);
 }
 
 // year diffrence
 
 function yearDiffrence(year) {
-    const max = currentYearr();
+    //Get the biggest year
+    const max = currentYear();
     const diffrence = max - year;
+    //The current year's difference is the largest of its kind
     return diffrence;
 }
 
 
 // get the price based on the chosen make 
 
-function calMake(chosenMake, price) {
-    // variables
+function carMake(chosenMake, price) {
+    // variables for config Properties
     const make = chosenMake;
     const basePrice = config.basePrice;
     const make1 = config.make1;
     const make2 = config.make2;
     const make3 = config.make3;
 
+    //calculation of the base price with the car factor
     switch (make) {
         case "1":
+            // 0 = 2000000 * 1.15
             return (price = basePrice * make1);
         case "2":
+            // 0 = 2000000 * 1.3
             return (price = basePrice * make2);
         case "3":
+            // 0 = 2000000 * 1.8
             return (price = basePrice * make3);
     }
 }
 
 
-// calculate the price based on the chosen level
+//Calculation of the insurance price based on the specified base
 
-function calLevel(chosenLevel, price) {
+function carLevel(chosenLevel, price) {
     const basic = config.basic;
     const complete = config.complete;
     if (chosenLevel == "basic") {
+        // 0 = 0 * 1.3 => 30%
         return (price = price * basic);
     } else {
+        // 0 = 0 * 1.5 => 50%
         return (price = price * complete);
     }
 
-
 }
 
-// Display message box
+
+// Display message box (Creates an html element)
+//This function is executed to html elements if there is an error
 
 function displayMsg(msg) {
     // create message box
@@ -130,29 +140,30 @@ function displayMsg(msg) {
     messageBox.classList = "error";
     messageBox.innerText = msg;
 
-    // show message
+    // show message error
     form.insertBefore(messageBox, document.querySelector(".form-group"));
 
-    // remove message box
+    // remove message box error After 5 seconds
     setTimeout(() => {
         document.querySelector(".error").remove();
     }, 5000);
 }
 
-// get the current year
 
-function currentYearr() {
-    let curentYear = new Date().toLocaleDateString("fa-IR");
+// Making the current year and calling the previous years
+function currentYear() {
+    let curentNowYear = new Date().toLocaleDateString("fa-IR");
 
     // Slice date
-    curentYear = curentYear.slice(0, 4);
+    curentNowYear = curentNowYear.slice(0, 4);
 
     // get max year
-    let maxYear = fixNumbers(curentYear);
+    let maxYear = fixNumbers(curentNowYear);
     // previous years
-    preYears(maxYear);
+    lastYears(maxYear);
     return maxYear;
 }
+
 
 // Convert Arabic and Persian string numbers to Gregorian numerals
 
@@ -194,33 +205,33 @@ function fixNumbers(str) {
     return parseInt(str);
 }
 
-// previous years
-// show previous years based on the current year
-
-function preYears(maxYear) {
+//
+// Show the last 20 years based on the current year
+function lastYears(maxYear) {
     // get min year
     let minYear = maxYear - 20;
 
-    // create first option tag for title
-    optionMaker("", `- انتخاب -`);
+    //Create a title for the build year input
+    yearMakerOpt("", `- انتخاب -`);
 
-    // create a for loop for making all the option tags
+    //Creating titles for internal options (for example, سال 1402)
     for (let i = maxYear; i >= minYear; i--) {
-        optionMaker(i, `سال ${i}`);
+        yearMakerOpt(i, `سال ${i}`);
     }
 }
 
-// make option tags for DOM 
 
-function optionMaker(optValue, optText) {
+// Making and creating the year of manufacture option
+
+function yearMakerOpt(valueOpt, valueTxt) {
     // access to the select tag
-    const yearSelectTag = document.querySelector("#year");
+    const tagYearOption = document.querySelector("#year");
 
     // create option tag
     const optionTag = document.createElement("option");
-    optionTag.value = optValue;
-    optionTag.innerText = optText;
+    optionTag.value = valueOpt;
+    optionTag.innerText = valueTxt;
 
-    // append option to the selectYear
-    yearSelectTag.appendChild(optionTag);
+    // append option to the YearOption
+    tagYearOption.appendChild(optionTag);
 }
