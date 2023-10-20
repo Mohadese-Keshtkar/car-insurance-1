@@ -48,11 +48,25 @@ function submitForm(e) {
 const config = {
     price: 0,
     basePrice: 2000000,
-    make1: 1.15,
-    make2: 1.3,
-    make3: 1.8,
-    basic: 1.3, //  =>  30%
-    complete: 1.5, //  =>  50%
+    carFactors: {
+
+        pride: 1.15,
+        optima: 1.3,
+        porsche: 1.8,
+    },
+    levelFactors: {
+
+        //  =>  30%
+        basic: 1.3,
+        //  =>  50%
+        complete: 1.5,
+    },
+
+    yearFactors: {
+        perYear: 0.03,
+        //get 20 years
+        lastTwentyYears: 20,
+    },
 };
 
 
@@ -60,23 +74,27 @@ const config = {
 // Functions to handle calculations
 
 function calculaterPrice(info) {
-    // variables
+    // new Variables
     let price = config.price;
 
-    // + Calculate the price based on the Make chosen by user
-    price = carMake(info.make, price);
+    // calculate the price based on Choosing a car model
+    price *= getCarFactor(info.make);
 
-    // + Calculate the price based on the Year chosen by user
+    // calculate the price based on the year of the car
     const year = fixNumbers(info.year);
 
-    // + Calculate year diffrence
+    // Calculate the difference between the current year
+    // and the year selected by the user
     const diffrence = yearDiffrence(year);
 
-    // 3% cheaper for each year
-    price = price - ((diffrence * 3) / 100) * price;
+    // Each year is 3% cheaper than the next year
+    price -= (diffrence * config.yearFactors.perYear * price);
 
-    // + Calculate the price based on the level chosen by user
-    price = carLevel(info.level, price);
+    // Price calculation is announced based on the level
+    price *= getCarLevel(info.level);
+
+    // get price (return)
+    return price;
 }
 
 // year diffrence
@@ -92,34 +110,34 @@ function yearDiffrence(year) {
 
 // get the price based on the chosen make 
 
-function carMake(chosenMake, price) {
+function getCarFactor(chosenMake, price) {
     // variables for config Properties
     const make = chosenMake;
     const basePrice = config.basePrice;
-    const make1 = config.make1;
-    const make2 = config.make2;
-    const make3 = config.make3;
+    const pride = config.carFactors.pride;
+    const optima = config.carFactors.optima;
+    const porsche = config.carFactors.porsche;
 
     //calculation of the base price with the car factor
     switch (make) {
         case "1":
             // 0 = 2000000 * 1.15
-            return (price = basePrice * make1);
+            return (price = basePrice * pride);
         case "2":
             // 0 = 2000000 * 1.3
-            return (price = basePrice * make2);
+            return (price = basePrice * optima);
         case "3":
             // 0 = 2000000 * 1.8
-            return (price = basePrice * make3);
+            return (price = basePrice * porsche);
     }
 }
 
 
 //Calculation of the insurance price based on the specified base
 
-function carLevel(chosenLevel, price) {
-    const basic = config.basic;
-    const complete = config.complete;
+function getCarLevel(chosenLevel, price) {
+    const basic = config.levelFactors.basic;
+    const complete = config.levelFactors.complete;
     if (chosenLevel == "basic") {
         // 0 = 0 * 1.3 => 30%
         return (price = price * basic);
@@ -209,7 +227,7 @@ function fixNumbers(str) {
 // Show the last 20 years based on the current year
 function lastYears(maxYear) {
     // get min year
-    let minYear = maxYear - 20;
+    let minYear = maxYear - config.lastTwentyYears;
 
     //Create a title for the build year input
     yearMakerOpt("", `- انتخاب -`);
@@ -232,6 +250,12 @@ function yearMakerOpt(valueOpt, valueTxt) {
     optionTag.value = valueOpt;
     optionTag.innerText = valueTxt;
 
-    // append option to the YearOption
-    tagYearOption.appendChild(optionTag);
+    // create a document fragment
+    const fragment = document.createDocumentFragment()
+
+    // add option to the fragment
+    fragment.appendChild(optionTag)
+
+    // append fragment to the YearOption
+    tagYearOption.appendChild(fragment);
 }
